@@ -1,17 +1,8 @@
-// const { notes } = require("../../../db/db");
-
-// const { response } = require("express");
-// const express = require("express");
-// const app = express();
-
 let noteTitle;
 let noteText;
 let saveNoteBtn;
 let newNoteBtn;
 let noteList;
-
-console.log("hello");
-console.log(window.location.pathname);
 
 if (window.location.pathname === "/notes.html") {
   noteTitle = document.querySelector(".note-title");
@@ -19,8 +10,6 @@ if (window.location.pathname === "/notes.html") {
   saveNoteBtn = document.querySelector(".save-note");
   newNoteBtn = document.querySelector(".new-note");
   noteList = document.querySelectorAll(".list-container .list-group");
-
-  console.log("true");
 }
 
 // Show an element
@@ -123,7 +112,9 @@ const handleNoteDelete = (e) => {
     };
   }
 
-  deleteNote(noteId).then(getAndRenderNotes());
+  deleteNote(noteId).then((results) => {
+    return getAndRenderNotes();
+  });
 };
 
 const getNote = (id) =>
@@ -168,10 +159,8 @@ const handleRenderSaveBtn = () => {
 
 // Render the list of note titles
 const renderNoteList = async (notes) => {
-  console.log(notes);
   let jsonNotes = await notes;
   if (window.location.pathname === "/notes.html") {
-    console.log("161-true");
     noteList.forEach((el) => (el.innerHTML = ""));
   }
 
@@ -221,8 +210,6 @@ const renderNoteList = async (notes) => {
   if (window.location.pathname === "/notes.html") {
     noteListItems.forEach((note) => noteList[0].append(note));
   }
-
-  console.log(noteListItems);
 };
 
 // Gets notes from the db and renders them to the sidebar
@@ -231,7 +218,6 @@ const getAndRenderNotes = () =>
     renderNoteList(noteData);
   });
 
-console.log(window.location.pathname);
 if (window.location.pathname === "/notes.html") {
   saveNoteBtn.addEventListener("click", handleNoteSave);
   newNoteBtn.addEventListener("click", handleNewNoteView);
